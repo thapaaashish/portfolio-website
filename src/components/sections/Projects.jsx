@@ -246,7 +246,7 @@ const Projects = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white py-16">
+    <div id="projects" className="min-h-screen py-16">
       {selectedProject && (
         <ProjectDetails
           project={selectedProject}
