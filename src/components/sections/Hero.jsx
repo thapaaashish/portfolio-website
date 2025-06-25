@@ -7,6 +7,9 @@ const Hero = () => {
   const scrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
+  const scrollToContact = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section
@@ -19,7 +22,6 @@ const Hero = () => {
           {/* Removed animation classes */}
           {/* Main Content */}
           <div className="mb-8">
-
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-800 bg-clip-text text-transparent leading-tight">
               Hi, I'm{" "}
               <span className="relative">
@@ -59,14 +61,17 @@ const Hero = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              onClick={scrollToProjects}
+              onClick={scrollToContact}
               className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-full hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 hover:scale-105 transform hover:shadow-xl hover:shadow-blue-500/25"
             >
               <span className="relative z-10">Contact Me</span>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl" />
             </button>
 
-            <button className="px-8 py-4 border border-gray-300 text-gray-700 font-semibold rounded-full hover:bg-gray-50 transition-all duration-300 hover:scale-105 transform shadow-sm hover:shadow-md">
+            <button
+              onClick={scrollToProjects}
+              className="px-8 py-4 border border-gray-300 text-gray-700 font-semibold rounded-full hover:bg-gray-50 transition-all duration-300 hover:scale-105 transform shadow-sm hover:shadow-md"
+            >
               View My Work
             </button>
           </div>
