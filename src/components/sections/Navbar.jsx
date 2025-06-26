@@ -7,7 +7,7 @@ const Logo = ({ className = "" }) => {
 
   return (
     <div
-      className={`relative group cursor-pointer select-none ${className}`}
+      className={`quicksand relative group cursor-pointer select-none ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -90,12 +90,20 @@ const Logo = ({ className = "" }) => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const resumeUrl =
+    "https://drive.google.com/file/d/12EvHL2hotm0XHCdHHWz4yN_T7lQNUm3q/view?usp=drive_link";
+
   const navItems = [
     { name: "Home", onClick: () => scrollToSection("home") },
     { name: "About", onClick: () => scrollToSection("about") },
     { name: "Projects", onClick: () => scrollToSection("projects") },
     { name: "Contact", onClick: () => scrollToSection("contact") },
-    { name: "Resume", onClick: () => scrollToSection("resume") },
+    {
+      name: "Resume",
+      href: resumeUrl,
+      target: "_blank",
+      rel: "noopener noreferrer",
+    },
   ];
 
   const scrollToSection = (id) => {
@@ -106,12 +114,17 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
+    <nav className="quicksand fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Text-Only Animated Logo */}
           <div className="flex-shrink-0">
-            <Logo />
+            <a
+              onClick={() => scrollToSection("home")}
+              className="cursor-pointer"
+            >
+              <Logo />
+            </a>
           </div>
 
           {/* Desktop Navigation */}
@@ -120,14 +133,16 @@ const Navbar = () => {
               {navItems.map((item, index) => (
                 <a
                   key={item.name}
-                  onClick={item.onClick}
+                  {...(item.href
+                    ? { href: item.href, target: item.target, rel: item.rel }
+                    : { onClick: item.onClick })}
                   className="relative text-gray-700 hover:text-gray-900 px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg hover:bg-gray-50 group cursor-pointer"
                   style={{
                     animationDelay: `${index * 100}ms`,
                   }}
                 >
                   {item.name}
-                  <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-6 group-hover:left-1/2 transform -translate-x-1/2"></span>
+                  <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-6 group-hover:left-1/2 transform -translate-x-1/2"></span>
                 </a>
               ))}
             </div>
@@ -173,7 +188,9 @@ const Navbar = () => {
             {navItems.map((item, index) => (
               <a
                 key={item.name}
-                onClick={item.onClick}
+                {...(item.href
+                  ? { href: item.href, target: item.target, rel: item.rel }
+                  : { onClick: item.onClick })}
                 className="cursor-pointer block px-4 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-base font-medium transition-all duration-200 transform hover:translate-x-1"
                 style={{
                   animationDelay: `${index * 50}ms`,

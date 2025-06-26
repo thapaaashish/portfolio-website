@@ -23,21 +23,150 @@ const About = () => {
   }, []);
 
   const skills = [
-    { name: "JavaScript", icon: javascriptIcon }, // JavaScript yellow
-    { name: "React", icon: reactIcon }, // React blue
-    { name: "Node.js", icon: nodejsIcon }, // Node.js green
-    { name: "Python", icon: pythonIcon }, // Python blue
-    { name: "MongoDB", icon: mongodbIcon }, // MongoDB green
-    { name: "AWS", icon: awsIcon }, // AWS orange
-    { name: "GitHub", icon: githubIcon }, // Git orange
-    { name: "Tailwind CSS", icon: tailwindcssIcon }, // Tailwind teal
-    { name: "Express.js", icon: expressjsIcon }, // Express.js gray (Node-based)
-    { name: "Firebase", icon: firebaseIcon }, // Firebase yellow
-    { name: "Figma", icon: figmaIcon }, // Figma pink
+    { name: "JavaScript", icon: javascriptIcon },
+    { name: "React", icon: reactIcon },
+    { name: "Node.js", icon: nodejsIcon },
+    { name: "Python", icon: pythonIcon },
+    { name: "MongoDB", icon: mongodbIcon },
+    { name: "AWS", icon: awsIcon },
+    { name: "GitHub", icon: githubIcon },
+    { name: "Tailwind CSS", icon: tailwindcssIcon },
+    { name: "Express.js", icon: expressjsIcon },
+    { name: "Firebase", icon: firebaseIcon },
+    { name: "Figma", icon: figmaIcon },
+  ];
+
+  const orbitingIcons = [
+    {
+      icon: javascriptIcon,
+      name: "JavaScript",
+      bg: "bg-yellow-500/90",
+      angle: 0,
+      radius: 100,
+      duration: 8,
+    },
+    {
+      icon: reactIcon,
+      name: "React",
+      bg: "bg-blue-500/90",
+      angle: 72,
+      radius: 110,
+      duration: 9,
+    },
+    {
+      icon: nodejsIcon,
+      name: "Node.js",
+      bg: "bg-green-500/90",
+      angle: 144,
+      radius: 105,
+      duration: 10,
+    },
+    {
+      icon: mongodbIcon,
+      name: "MongoDB",
+      bg: "bg-green-600/90",
+      angle: 216,
+      radius: 115,
+      duration: 8.5,
+    },
+    {
+      icon: tailwindcssIcon,
+      name: "Tailwind CSS",
+      bg: "bg-teal-500/90",
+      angle: 288,
+      radius: 108,
+      duration: 9.5,
+    },
+  ];
+
+  const floatingIcons = [
+    {
+      icon: javascriptIcon,
+      name: "JavaScript",
+      position: { left: "-left-8", top: "top-16" },
+      delay: "delay-200",
+      particles: [
+        {
+          size: "w-2 h-2",
+          color: "bg-blue-400/60",
+          animation: "animate-float-1",
+          position: { top: "10%", left: "10%" },
+        },
+        {
+          size: "w-1.5 h-1.5",
+          color: "bg-purple-500/60",
+          animation: "animate-float-2",
+          position: { top: "80%", right: "15%" },
+        },
+      ],
+    },
+    {
+      icon: reactIcon,
+      name: "React",
+      position: { left: "-right-8", top: "bottom-20" },
+      delay: "delay-300",
+      animationDelay: "0.5s",
+      particles: [
+        {
+          size: "w-1 h-1",
+          color: "bg-pink-500/60",
+          animation: "animate-float-3",
+          position: { top: "20%", right: "10%" },
+        },
+        {
+          size: "w-1.5 h-1.5",
+          color: "bg-indigo-400/60",
+          animation: "animate-float-4",
+          position: { bottom: "15%", left: "20%" },
+        },
+      ],
+    },
+    {
+      icon: tailwindcssIcon,
+      name: "Tailwind CSS",
+      position: { left: "-left-6", top: "bottom-12" },
+      delay: "delay-400",
+      animationDelay: "1s",
+      particles: [
+        {
+          size: "w-2 h-2",
+          color: "bg-teal-400/60",
+          animation: "animate-float-1",
+          position: { top: "15%", left: "15%" },
+        },
+        {
+          size: "w-1 h-1",
+          color: "bg-cyan-500/60",
+          animation: "animate-float-2",
+          position: { top: "70%", right: "20%" },
+        },
+      ],
+    },
+    {
+      icon: figmaIcon,
+      name: "Figma",
+      position: { left: "-right-6", top: "top-12" },
+      delay: "delay-500",
+      animationDelay: "1.5s",
+      particles: [
+        {
+          size: "w-1.5 h-1.5",
+          color: "bg-pink-400/60",
+          animation: "animate-float-3",
+          position: { top: "25%", right: "15%" },
+        },
+        {
+          size: "w-2 h-2",
+          color: "bg-purple-400/60",
+          animation: "animate-float-4",
+          position: { bottom: "20%", left: "10%" },
+        },
+      ],
+    },
   ];
 
   return (
-    <section id="about" className="py-20 relative">
+    <section id="about" className="py-20 relative quicksand">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <div
@@ -46,7 +175,7 @@ const About = () => {
           }`}
         >
           <h2 className="text-5xl font-bold text-gray-900 mb-4">About Me</h2>
-          <div className="w-24 h-1 bg-gray-400 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
@@ -59,7 +188,7 @@ const About = () => {
             }`}
           >
             <div className="space-y-6">
-              <div className="p-8  rounded-3xl shadow-lg border border-gray-100">
+              <div className="p-8 rounded-3xl shadow-lg border border-gray-100">
                 <p className="text-gray-700 text-lg leading-relaxed mb-6">
                   Hi, I'm{" "}
                   <span className="font-semibold text-gray-900">
@@ -102,7 +231,7 @@ const About = () => {
 
               {/* Main Profile Container */}
               <div className="relative w-80 h-80 bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-full flex items-center justify-center shadow-2xl group-hover:shadow-3xl transition-all duration-500 group-hover:scale-105 backdrop-blur-sm border border-white/20">
-                {/* Floating Particles */}
+                {/* Floating Particles for Profile */}
                 <div className="absolute inset-0 rounded-full overflow-hidden">
                   <div
                     className="absolute w-2 h-2 bg-blue-400/60 rounded-full animate-float-1"
@@ -133,132 +262,75 @@ const About = () => {
                   {/* Shine Effect */}
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-              </div>
 
-              {/* Floating Icons */}
-              <div className="absolute -left-8 top-16 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-200">
-                <div className="w-8 h-8 bg-blue-500/90 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg animate-bounce-slow">
-                  JS
-                </div>
-              </div>
+                {/* Orbiting SVG Icons */}
+                {orbitingIcons.map((icon, index) => (
+                  <div
+                    key={index}
+                    className="absolute w-12 h-12 rounded-lg flex items-center justify-center shadow-lg transition-all duration-300 orbit-icon"
+                    style={{
+                      transform: `rotate(${icon.angle}deg) translateX(${icon.radius}px) rotate(-${icon.angle}deg)`,
+                      animation: `orbit ${icon.duration}s linear infinite`,
+                      transformOrigin: "center",
+                      left: "50%",
+                      top: "50%",
+                      marginLeft: "-24px",
+                      marginTop: "-24px",
+                    }}
+                    onMouseEnter={() => setHoveredSkill(index)}
+                    onMouseLeave={() => setHoveredSkill(null)}
+                  >
+                    <div
+                      className={`${
+                        icon.bg
+                      } w-full h-full rounded-lg flex items-center justify-center transition-all duration-300 ${
+                        hoveredSkill === index ? "scale-125 z-10 shadow-xl" : ""
+                      }`}
+                    >
+                      <img
+                        src={icon.icon}
+                        alt={icon.name}
+                        className="w-6 h-6 object-contain"
+                      />
+                    </div>
+                  </div>
+                ))}
 
-              <div className="absolute -right-8 bottom-20 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-300">
-                <div
-                  className="w-8 h-8 bg-purple-500/90 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg animate-bounce-slow"
-                  style={{ animationDelay: "0.5s" }}
-                >
-                  ⚛️
-                </div>
-              </div>
-
-              <div className="absolute -left-6 bottom-12 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-400">
-                <div
-                  className="w-8 h-8 bg-green-500/90 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg animate-bounce-slow"
-                  style={{ animationDelay: "1s" }}
-                >
-                  💻
-                </div>
+                {/* Floating SVG Icons with Particles */}
+                {floatingIcons.map((icon, index) => (
+                  <div
+                    key={index}
+                    className={`absolute ${icon.position.left} ${icon.position.top} opacity-0 group-hover:opacity-100 transition-all duration-700 ${icon.delay}`}
+                    onMouseEnter={() => setHoveredSkill(icon.name)}
+                    onMouseLeave={() => setHoveredSkill(null)}
+                  >
+                    <div
+                      className="relative w-8 h-8 rounded-lg flex items-center justify-center shadow-lg animate-bounce-slow"
+                      style={{ animationDelay: icon.animationDelay || "0s" }}
+                    >
+                      {/* Particles for Floating Icon */}
+                      <div className="absolute inset-0">
+                        {icon.particles.map((particle, pIndex) => (
+                          <div
+                            key={pIndex}
+                            className={`absolute ${particle.size} ${particle.color} rounded-full ${particle.animation}`}
+                            style={particle.position}
+                          ></div>
+                        ))}
+                      </div>
+                      <img
+                        src={icon.icon}
+                        alt={icon.name}
+                        className={`w-6 h-6 object-contain transition-transform duration-300 ${
+                          hoveredSkill === icon.name ? "scale-125" : ""
+                        }`}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-
-          <style jsx>{`
-            @keyframes spin-slow {
-              from {
-                transform: rotate(0deg);
-              }
-              to {
-                transform: rotate(360deg);
-              }
-            }
-
-            @keyframes spin-reverse {
-              from {
-                transform: rotate(360deg);
-              }
-              to {
-                transform: rotate(0deg);
-              }
-            }
-
-            @keyframes float-1 {
-              0%,
-              100% {
-                transform: translateY(0px) rotate(0deg);
-              }
-              50% {
-                transform: translateY(-20px) rotate(180deg);
-              }
-            }
-
-            @keyframes float-2 {
-              0%,
-              100% {
-                transform: translateY(0px) rotate(0deg);
-              }
-              50% {
-                transform: translateY(-15px) rotate(-180deg);
-              }
-            }
-
-            @keyframes float-3 {
-              0%,
-              100% {
-                transform: translateY(0px) rotate(0deg);
-              }
-              50% {
-                transform: translateY(-25px) rotate(180deg);
-              }
-            }
-
-            @keyframes float-4 {
-              0%,
-              100% {
-                transform: translateY(0px) rotate(0deg);
-              }
-              50% {
-                transform: translateY(-18px) rotate(-180deg);
-              }
-            }
-
-            @keyframes bounce-slow {
-              0%,
-              100% {
-                transform: translateY(0px);
-              }
-              50% {
-                transform: translateY(-10px);
-              }
-            }
-
-            .animate-spin-slow {
-              animation: spin-slow 20s linear infinite;
-            }
-
-            .animate-spin-reverse {
-              animation: spin-reverse 15s linear infinite;
-            }
-
-            .animate-float-1 {
-              animation: float-1 6s ease-in-out infinite;
-            }
-
-            .animate-float-2 {
-              animation: float-2 8s ease-in-out infinite;
-            }
-
-            .animate-float-3 {
-              animation: float-3 7s ease-in-out infinite;
-            }
-
-            .animate-float-4 {
-              animation: float-4 9s ease-in-out infinite;
-            }
-
-            .animate-bounce-slow {
-              animation: bounce-slow 2s ease-in-out infinite;
-            }
-          `}</style>
         </div>
 
         {/* Skills Section */}
@@ -269,7 +341,7 @@ const About = () => {
         >
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2">
-              <javascriptIcon className="w-8 h-8" />
+              <DiMongodb className="w-8 h-8" />
               Skills & Technologies
             </h3>
           </div>
@@ -311,6 +383,115 @@ const About = () => {
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes spin-reverse {
+          from {
+            transform: rotate(360deg);
+          }
+          to {
+            transform: rotate(0deg);
+          }
+        }
+
+        @keyframes float-1 {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(180deg);
+          }
+        }
+
+        @keyframes float-2 {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-15px) rotate(-180deg);
+          }
+        }
+
+        @keyframes float-3 {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-25px) rotate(180deg);
+          }
+        }
+
+        @keyframes float-4 {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-18px) rotate(-180deg);
+          }
+        }
+
+        @keyframes bounce-slow {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 20s linear infinite;
+        }
+
+        .animate-spin-reverse {
+          animation: spin-reverse 15s linear infinite;
+        }
+
+        .animate-float-1 {
+          animation: float-1 6s ease-in-out infinite;
+        }
+
+        .animate-float-2 {
+          animation: float-2 8s ease-in-out infinite;
+        }
+
+        .animate-float-3 {
+          animation: float-3 7s ease-in-out infinite;
+        }
+
+        .animate-float-4 {
+          animation: float-4 9s ease-in-out infinite;
+        }
+
+        .animate-bounce-slow {
+          animation: bounce-slow 2s ease-in-out infinite;
+        }
+
+        .orbit-icon {
+          will-change: transform;
+        }
+
+        .orbit-icon:hover {
+          animation-play-state: paused;
+          transform: scale(1.2);
+          z-index: 10;
+          filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
+        }
+      `}</style>
     </section>
   );
 };

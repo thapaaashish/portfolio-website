@@ -10,6 +10,7 @@ import {
   Eye,
   Code,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Projects = () => {
   const [visibleProjects, setVisibleProjects] = useState(4);
@@ -86,7 +87,7 @@ const Projects = () => {
 
     return (
       <div
-        className={`relative group cursor-pointer transition-all duration-500 transform hover:-translate-y-2 ${
+        className={`quicksand relative group cursor-pointer transition-all duration-500 transform hover:-translate-y-2 ${
           index % 2 === 0 ? "hover:rotate-1" : "hover:-rotate-1"
         }`}
         onClick={() => setSelectedProject(project)}
@@ -211,106 +212,174 @@ const Projects = () => {
 
   const ProjectDetails = ({ project, onClose }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [direction, setDirection] = useState(null);
+    const [isClosing, setIsClosing] = useState(false);
 
+    // Handle body scroll and keyboard navigation
     useEffect(() => {
       const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = "hidden";
 
+      const handleKeyDown = (e) => {
+        if (e.key === "Escape") handleClose();
+        if (e.key === "ArrowRight") nextImage();
+        if (e.key === "ArrowLeft") prevImage();
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
       return () => {
         document.body.style.overflow = originalStyle;
+        window.removeEventListener("keydown", handleKeyDown);
       };
     }, []);
 
+    const handleClose = () => {
+      setIsClosing(true);
+      setTimeout(onClose, 300);
+    };
+
     const nextImage = () => {
+      setDirection("right");
       setCurrentImageIndex((prev) =>
         prev === project.images.length - 1 ? 0 : prev + 1
       );
     };
 
     const prevImage = () => {
+      setDirection("left");
       setCurrentImageIndex((prev) =>
         prev === 0 ? project.images.length - 1 : prev - 1
       );
     };
 
+    const goToImage = (index) => {
+      setDirection(index > currentImageIndex ? "right" : "left");
+      setCurrentImageIndex(index);
+    };
+
+    // Animation variants
+    const imageVariants = {
+      enter: (direction) => ({
+        x: direction === "right" ? 100 : -100,
+        opacity: 0,
+      }),
+      center: {
+        x: 0,
+        opacity: 1,
+      },
+      exit: (direction) => ({
+        x: direction === "right" ? -100 : 100,
+        opacity: 0,
+      }),
+    };
+
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-xl z-50 overflow-y-auto p-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Modal */}
-          <div className=" rounded-3xl overflow-hidden shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isClosing ? 0 : 1 }}
+        transition={{ duration: 0.3 }}
+        className="fixed inset-0 backdrop-blur-sm z-50 overflow-y-auto p-4 md:p-8"
+      >
+        <div className="max-w-7xl mx-auto relative">
+          {/* Modal Container */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: isClosing ? 20 : 0, opacity: isClosing ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-2xl overflow-hidden shadow-xl"
+          >
             {/* Header */}
-            <div className="relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-8 text-white">
+            <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-6 md:p-8 text-white">
               <button
-                onClick={onClose}
-                className="absolute top-6 right-6 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                onClick={handleClose}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all"
+                aria-label="Close modal"
               >
-                <X size={20} />
+                <X size={24} />
               </button>
 
               <div className="max-w-4xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
+                <div className="flex flex-wrap items-center gap-2 mb-4">
+                  <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium backdrop-blur-sm">
                     {project.category}
                   </span>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${
                       project.status === "Live"
-                        ? "bg-green-400/20 text-green-100"
-                        : "bg-blue-400/20 text-blue-100"
+                        ? "bg-green-100/20 text-green-100 backdrop-blur-sm"
+                        : "bg-blue-100/20 text-blue-100 backdrop-blur-sm"
                     }`}
                   >
                     {project.status}
                   </span>
                 </div>
 
-                <h1 className="text-4xl font-bold mb-4">{project.title}</h1>
-                <p className="text-xl text-white/90 max-w-3xl">
+                <h1 className="text-3xl md:text-4xl font-bold mb-3">
+                  {project.title}
+                </h1>
+                <p className="text-lg text-white/90 max-w-3xl">
                   {project.shortDescription}
                 </p>
               </div>
             </div>
 
-            <div className="p-8">
+            <div className="p-6 md:p-8">
               {/* Images Gallery */}
-              <div className="relative mb-12">
-                <div className="rounded-2xl overflow-hidden shadow-xl">
-                  <img
-                    src={project.images[currentImageIndex]}
-                    alt={`${project.title} - ${currentImageIndex + 1}`}
-                    className="w-full h-auto max-h-[500px] object-contain bg-gray-50"
-                  />
+              <div className="relative mb-8 md:mb-12">
+                <div className="relative rounded-xl overflow-hidden bg-gray-50 min-h-[300px] flex items-center justify-center">
+                  <AnimatePresence custom={direction} mode="wait">
+                    <motion.img
+                      key={currentImageIndex}
+                      custom={direction}
+                      variants={imageVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                      src={project.images[currentImageIndex]}
+                      alt={`${project.title} - ${currentImageIndex + 1}`}
+                      className="w-full h-auto max-h-[500px] object-contain"
+                    />
+                  </AnimatePresence>
                 </div>
 
-                {/* Navigation */}
+                {/* Navigation Arrows */}
                 {project.images.length > 1 && (
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
+                      className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 md:p-3 rounded-full shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      aria-label="Previous image"
                     >
                       <ChevronLeft size={20} />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
+                      className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 md:p-3 rounded-full shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      aria-label="Next image"
                     >
                       <ChevronRight size={20} />
                     </button>
                   </>
                 )}
 
-                {/* Indicators */}
+                {/* Image Indicators */}
                 {project.images.length > 1 && (
-                  <div className="flex justify-center mt-6 gap-2">
+                  <div className="flex justify-center mt-4 gap-2">
                     {project.images.map((_, index) => (
                       <button
                         key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`w-3 h-3 rounded-full transition-all ${
+                        onClick={() => goToImage(index)}
+                        className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${
                           currentImageIndex === index
                             ? "bg-gradient-to-r from-blue-500 to-purple-500 scale-125"
                             : "bg-gray-300 hover:bg-gray-400"
                         }`}
+                        aria-label={`Go to image ${index + 1}`}
                       />
                     ))}
                   </div>
@@ -318,75 +387,94 @@ const Projects = () => {
               </div>
 
               {/* Content */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
                 {/* Main Content */}
                 <div className="lg:col-span-2 space-y-8">
-                  <div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
                     <h2 className="text-2xl font-bold text-gray-900 mb-4">
                       About This Project
                     </h2>
                     <p className="text-gray-700 text-lg leading-relaxed">
                       {project.description}
                     </p>
-                  </div>
+                  </motion.div>
 
-                  <div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
                     <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                      <Code className="w-5 h-5" />
+                      <Code className="w-5 h-5 text-blue-600" />
                       Key Features
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {project.features.map((feature, index) => (
                         <div
                           key={index}
-                          className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl"
+                          className="flex items-start gap-3 p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
                         >
                           <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mt-2 flex-shrink-0" />
                           <span className="text-gray-700">{feature}</span>
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                      Project Highlights
-                    </h3>
-                    <div className="flex flex-wrap gap-3">
-                      {project.highlights.map((highlight, index) => (
-                        <span
-                          key={index}
-                          className="px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-gray-800 rounded-full text-sm font-medium"
-                        >
-                          {highlight}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  {project.highlights && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                        Project Highlights
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {project.highlights.map((highlight, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-purple-50 text-gray-800 rounded-lg text-sm font-medium border border-gray-200"
+                          >
+                            {highlight}
+                          </span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
 
                 {/* Sidebar */}
                 <div className="lg:col-span-1">
-                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-2xl space-y-6">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-gray-50 p-6 rounded-xl space-y-6 border border-gray-200"
+                  >
                     <h3 className="text-xl font-semibold text-gray-900">
                       Project Details
                     </h3>
 
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <div>
-                        <p className="text-gray-600 text-sm mb-1">Category</p>
+                        <p className="text-gray-500 text-sm mb-1">Category</p>
                         <p className="text-gray-900 font-medium">
                           {project.category}
                         </p>
                       </div>
 
                       <div>
-                        <p className="text-gray-600 text-sm mb-1">Status</p>
+                        <p className="text-gray-500 text-sm mb-1">Status</p>
                         <span
                           className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
                             project.status === "Live"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-blue-100 text-blue-700"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-blue-100 text-blue-800"
                           }`}
                         >
                           {project.status}
@@ -394,14 +482,14 @@ const Projects = () => {
                       </div>
 
                       <div>
-                        <p className="text-gray-600 text-sm mb-2">
+                        <p className="text-gray-500 text-sm mb-2">
                           Technologies
                         </p>
                         <div className="flex flex-wrap gap-2">
                           {project.technologies.map((tech, index) => (
                             <span
                               key={index}
-                              className="px-2 py-1 bg-white text-gray-700 rounded-lg text-xs font-medium border"
+                              className="px-2.5 py-1 bg-white text-gray-700 rounded-md text-xs font-medium border border-gray-200 hover:bg-gray-100 transition-colors"
                             >
                               {tech}
                             </span>
@@ -409,31 +497,33 @@ const Projects = () => {
                         </div>
                       </div>
 
-                      <div className="pt-4 border-t border-gray-200">
-                        <a
-                          href={project.link}
-                          className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 hover:scale-105 transform"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <ExternalLink size={16} />
-                          View Live Demo
-                        </a>
-                      </div>
+                      {project.link && (
+                        <div className="pt-4 border-t border-gray-200">
+                          <a
+                            href={project.link}
+                            className="flex items-center justify-center gap-2 w-full bg-blue-400 text-white font-medium py-2.5 px-4 rounded-lg transition-all hover:shadow-lg"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink size={16} />
+                            View Live Demo
+                          </a>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
+      <div className=" quicksand min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="text-center">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
@@ -449,10 +539,7 @@ const Projects = () => {
   }
 
   return (
-    <div
-      id="projects"
-      className="min-h-screen py-16 "
-    >
+    <div id="projects" className="min-h-screen py-16 quicksand">
       {selectedProject && (
         <ProjectDetails
           project={selectedProject}

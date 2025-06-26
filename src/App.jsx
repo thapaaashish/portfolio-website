@@ -5,6 +5,7 @@ import Navbar from "./components/sections/Navbar";
 import About from "./components/sections/About";
 import Contact from "./components/sections/Contact";
 import BackgroundParticles from "./components/BackgroundParticles";
+import Footer from "./components/sections/Footer";
 
 function App() {
   return (
@@ -15,20 +16,12 @@ function App() {
           <Hero />
           <About />
           <Projects />
+
           <Contact />
         </main>
       </BackgroundParticles>
 
-      {/* Footer */}
-      <footer className="bg-gray-950 py-8 border-t border-gray-800 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-gray-400">
-              © {new Date().getFullYear()} Aashish Thapa.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
