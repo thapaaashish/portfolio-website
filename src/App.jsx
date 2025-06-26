@@ -6,23 +6,24 @@ import About from "./components/sections/About";
 import Contact from "./components/sections/Contact";
 import BackgroundParticles from "./components/BackgroundParticles";
 import Footer from "./components/sections/Footer";
+import { ThemeProvider } from "./components/theme";
 
 function App() {
   return (
-    <div className="bg-gray-900 min-h-screen text-gray-100">
-      <BackgroundParticles>
-        <Navbar />
-        <main>
-          <Hero />
-          <About />
-          <Projects />
-
-          <Contact />
-        </main>
-      </BackgroundParticles>
-
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+        <BackgroundParticles>
+          <Navbar />
+          <main>
+            <Hero />
+            <About />
+            <Projects />
+            <Contact />
+          </main>
+        </BackgroundParticles>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 
