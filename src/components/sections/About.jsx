@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { DiMongodb } from "react-icons/di";
 
-import javascriptIcon from "../../icons/icons8-js.svg";
-import reactIcon from "../../icons/icons8-react.svg";
-import nodejsIcon from "../../icons/icons8-node-js.svg";
-import pythonIcon from "../../icons/icons8-python.svg";
-import mongodbIcon from "../../icons/mongodb-icon.svg";
-import awsIcon from "../../icons/icons8-aws.svg";
-import githubIcon from "../../icons/icons8-github.svg";
-import tailwindcssIcon from "../../icons/icons8-tailwind-css.svg";
-import firebaseIcon from "../../icons/icons8-firebase.svg";
-import figmaIcon from "../../icons/icons8-figma.svg";
-import expressjsIcon from "../../icons/icons8-express-js.svg";
+import javascriptIcon from "../../Icons/icons8-js.svg";
+import reactIcon from "../../Icons/icons8-react.svg";
+import nodejsIcon from "../../Icons/icons8-node-js.svg";
+import pythonIcon from "../../Icons/icons8-python.svg";
+import mongodbIcon from "../../Icons/mongodb-icon.svg";
+import awsIcon from "../../Icons/icons8-aws.svg";
+import githubIcon from "../../Icons/icons8-github.svg";
+import tailwindcssIcon from "../../Icons/icons8-tailwind-css.svg";
+import firebaseIcon from "../../Icons/icons8-firebase.svg";
+import figmaIcon from "../../Icons/icons8-figma.svg";
+import expressjsIcon from "../../Icons/icons8-express-js.svg";
 
 const About = () => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
