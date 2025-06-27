@@ -190,7 +190,7 @@ const About = () => {
             }`}
           >
             <div className="space-y-6">
-              <div className="p-8 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800">
+              <div className="p-8 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-800 ">
                 <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-6">
                   Hi, I'm{" "}
                   <span className="font-semibold text-gray-900 dark:text-gray-100">

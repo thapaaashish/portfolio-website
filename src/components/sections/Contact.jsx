@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Mail,
   MapPin,
@@ -21,6 +21,15 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  useEffect(() => {
+    if (submitStatus) {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,16 +93,112 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 quicksand">
+    <section id="contact" className="pt-15 quicksand">
+      <AnimatePresence>
+        {submitStatus === "success" && (
+          <motion.div
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -100 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-md w-full p-4 bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-700 rounded-lg flex items-start gap-3 shadow-sm"
+          >
+            <div className="bg-green-100 dark:bg-green-800 p-1.5 rounded-full">
+              <CheckCircle2
+                className="text-green-600 dark:text-green-300"
+                size={18}
+              />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-green-800 dark:text-green-300">
+                Message sent successfully!
+              </h4>
+              <p className="text-sm text-green-600 dark:text-green-400 mt-1">
+                Thank you for reaching out. I'll get back to you soon.
+              </p>
+            </div>
+            <button
+              onClick={() => setSubmitStatus(null)}
+              className="text-green-500 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
+              aria-label="Close notification"
+            >
+              <XCircle size={18} />
+            </button>
+          </motion.div>
+        )}
+
+        {submitStatus === "error" && (
+          <motion.div
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -100 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-md w-full p-4 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-700 rounded-lg flex items-start gap-3 shadow-sm"
+          >
+            <div className="bg-red-100 dark:bg-red-800 p-1.5 rounded-full">
+              <XCircle className="text-red-600 dark:text-red-300" size={18} />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-red-800 dark:text-red-300">
+                Failed to send message
+              </h4>
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1">
+                Please try again later or contact me directly at
+                taashish510@email.com
+              </p>
+            </div>
+            <button
+              onClick={() => setSubmitStatus(null)}
+              className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
+              aria-label="Close notification"
+            >
+              <XCircle size={18} />
+            </button>
+          </motion.div>
+        )}
+
+        {submitStatus === "validation-error" && (
+          <motion.div
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -100 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-md w-full p-4 bg-amber-50 dark:bg-amber-900/50 border border-amber-200 dark:border-amber-700 rounded-lg flex items-start gap-3 shadow-sm"
+          >
+            <div className="bg-amber-100 dark:bg-amber-800 p-1.5 rounded-full">
+              <XCircle
+                className="text-amber-600 dark:text-amber-300"
+                size={18}
+              />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-amber-800 dark:text-amber-300">
+                Please fill all fields
+              </h4>
+              <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">
+                All fields marked with * are required.
+              </p>
+            </div>
+            <button
+              onClick={() => setSubmitStatus(null)}
+              className="text-amber-500 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300"
+              aria-label="Close notification"
+            >
+              <XCircle size={18} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             Get In Touch
           </h2>
           <div className="w-20 h-1.5 bg-blue-600 dark:bg-blue-500 mx-auto mb-6 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 rounded-2xl  p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 rounded-2xl p-8">
           <div className="space-y-8">
             <div>
               <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
@@ -247,105 +352,6 @@ const Contact = () => {
                   </span>
                 )}
               </button>
-
-              <AnimatePresence>
-                {submitStatus === "success" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-4 bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-700 rounded-lg flex items-start gap-3 shadow-sm"
-                  >
-                    <div className="bg-green-100 dark:bg-green-800 p-1.5 rounded-full">
-                      <CheckCircle2
-                        className="text-green-600 dark:text-green-300"
-                        size={18}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-medium text-green-800 dark:text-green-300">
-                        Message sent successfully!
-                      </h4>
-                      <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                        Thank you for reaching out. I'll get back to you soon.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setSubmitStatus(null)}
-                      className="text-green-500 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
-                      aria-label="Close notification"
-                    >
-                      <XCircle size={18} />
-                    </button>
-                  </motion.div>
-                )}
-
-                {submitStatus === "error" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-4 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-700 rounded-lg flex items-start gap-3 shadow-sm"
-                  >
-                    <div className="bg-red-100 dark:bg-red-800 p-1.5 rounded-full">
-                      <XCircle
-                        className="text-red-600 dark:text-red-300"
-                        size={18}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-medium text-red-800 dark:text-red-300">
-                        Failed to send message
-                      </h4>
-                      <p className="text-sm text-red-600 dark:text-red-400 mt-1">
-                        Please try again later or contact me directly at
-                        taashish510@email.com
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setSubmitStatus(null)}
-                      className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
-                      aria-label="Close notification"
-                    >
-                      <XCircle size={18} />
-                    </button>
-                  </motion.div>
-                )}
-
-                {submitStatus === "validation-error" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-4 bg-amber-50 dark:bg-amber-900/50 border border-amber-200 dark:border-amber-700 rounded-lg flex items-start gap-3 shadow-sm"
-                  >
-                    <div className="bg-amber-100 dark:bg-amber-800 p-1.5 rounded-full">
-                      <XCircle
-                        className="text-amber-600 dark:text-amber-300"
-                        size={18}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-medium text-amber-800 dark:text-amber-300">
-                        Please fill all fields
-                      </h4>
-                      <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">
-                        All fields marked with * are required.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setSubmitStatus(null)}
-                      className="text-amber-500 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300"
-                      aria-label="Close notification"
-                    >
-                      <XCircle size={18} />
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </form>
           </div>
         </div>
