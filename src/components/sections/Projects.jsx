@@ -71,6 +71,25 @@ const Projects = ({ setSelectedProject }) => {
         "Iterative design process",
       ],
     },
+    {
+      id: 3,
+      title: "Tic-Tac-Toe - Game",
+      description:
+        "An engaging, interactive Tic-Tac-Toe game featuring a dynamic 3x3 grid, real-time two-player gameplay, and responsive design. Includes score tracking, move history, winning animations, and persistent game state using localStorage.",
+      images: [
+        "https://res.cloudinary.com/dwhsjkzrn/image/upload/v1751047100/25890c4e-10fc-4114-b37f-638d13860779.png",
+      ],
+      link: "https://tic-tac-toe-six-bice-12.vercel.app/",
+      category: "Frontend Game",
+      status: "Live",
+      technologies: ["React", "Tailwind CSS"],
+      features: [
+        "Interactive 3x3 game board",
+        "Real-time two-player gameplay",
+        "Score tracking with localStorage",
+        "Move history and undo support",
+      ],
+    },
   ];
 
   const toggleShowMore = () => {
@@ -84,6 +103,8 @@ const Projects = ({ setSelectedProject }) => {
     MongoDB: mongodbIcon,
     Vercel: null,
     "Express.js": expressjsIcon,
+    "Tailwind CSS": tailwindcssIcon,
+    JavaScript: javascriptIcon,
   };
 
   const ProjectCard = ({ project }) => {
@@ -249,7 +270,6 @@ const Projects = ({ setSelectedProject }) => {
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-
         {projects.length > 4 && (
           <div className="text-center">
             <button
